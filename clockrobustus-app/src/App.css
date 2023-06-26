@@ -1,0 +1,54 @@
+.face {
+  width: 250px;
+  height: 250px;
+  margin: auto;
+  margin-top: -12px;
+  border: 1px solid white;
+  border-radius: 125px;
+}
+
+.digital {
+  margin-top: 200px;
+  font-size: 20pt;
+}
+
+#hourHand {
+  position: absolute;
+  width: 125px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #a45aed;
+  top: 152px;
+  transform-origin: 100% 100%;
+}
+
+#minuteHand {
+  position: absolute;
+  width: 125px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #5ccbd1;
+  top: 152px;
+  transform-origin: 100% 100%;
+}
+
+#secondHand {
+  position: absolute;
+  width: 125px;
+  height: 1px;
+  border-radius: 1px;
+  background-color: #ff29d4;
+  top: 152px;
+  transform-origin: 100% 100%;
+}
+
+#alarms-button {
+  left: -120px;
+  top: -20px;
+}
+
+.alarmsDialog {
+  width: 200px;
+  height: 200px;
+  overflow-y: scroll;
+}
