@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { appWindow } from "@tauri-apps/api/window";
-import IconButton from "@mui/material/IconButton";
 import "./App.css";
-import { ClockMessage, dummyClockMessage } from "./interfaces";
-import { FormControl } from "@mui/base";
-import { InputLabel } from "@mui/material";
+import { ClockMessage, dummyAlarm, dummyClockMessage } from "./interfaces";
+import Alarms from "./Alarms";
+import NumericSelect from "./NumericSelect";
+import AlarmForm from "./AlarmForm";
 
 function formatDigits(d: number): string {
   return d.toLocaleString('en-US', {
@@ -49,6 +49,7 @@ function App() {
           id="secondHand"
           style={{ transform: `rotate(${clock.secondsAngle}rad)`}}>
         </div>
+        <Alarms />
         <p className="digital">
           {formatDigits(clock.hours)}
           :{formatDigits(clock.minutes)}

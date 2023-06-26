@@ -38,8 +38,8 @@
         "fullscreen": false,
         "resizable": false,
         "title": "clockrobustus",
-        "width": 320,
-        "height": 320
+        "width": 500,
+        "height": 500
       }
     ]
   }

@@ -1,0 +1,9 @@
+.alarm-map-time {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+}
+
+.alarm-select {
+  flex: 2;
+}
