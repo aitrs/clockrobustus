@@ -93,8 +93,8 @@ impl Default for ClockMessage {
             minutes,
             seconds,
             hours_angle: Self::h24_to_radians(hours, minutes),
-            minutes_angle: Self::ms60_to_radians(minutes),
-            seconds_angle: Self::ms60_to_radians(seconds),
+            minutes_angle: Self::ms60_to_radians(minutes, Some(seconds)),
+            seconds_angle: Self::ms60_to_radians(seconds, None),
         }
     }
 }
@@ -110,8 +110,11 @@ impl ClockMessage {
 
     /// Internal initialization handy method for minutes and seconds hand angle computation (in
     /// radians)
-    fn ms60_to_radians(value: u8) -> f32 {
-        PI / 2f32 + (PI * (value % 60) as f32) / 30f32
+    fn ms60_to_radians(value: u8, arc: Option<u8>) -> f32 {
+        let arc = (arc.unwrap_or(0) as f32) * PI / 3600f32;
+        let angle = PI / 2f32 + (PI * (value % 60) as f32) / 30f32;
+
+        angle + arc
     }
 }
 
@@ -171,7 +174,7 @@ mod tests {
 
         // Same as above !
         for (value, expected_value) in test_cases {
-            tolerance_delta(ClockMessage::ms60_to_radians(value), expected_value);
+            tolerance_delta(ClockMessage::ms60_to_radians(value, None), expected_value);
         }
     }
 

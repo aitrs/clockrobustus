@@ -17,6 +17,9 @@ function formatDigits(d: number): string {
 function App() {
   const [clock, setClock] = useState(dummyClockMessage);
   const [invoked, setInvoked] = useState(false);
+  const [faceStyle, setFaceStyle] = useState({
+    backgroundColor: 'inherit',
+  });
 
   React.useEffect(() => {
     (async function() {
@@ -26,6 +29,31 @@ function App() {
           setClock(evt.payload as ClockMessage);
         }
       );
+
+      await appWindow.listen(
+        'ALARM',
+        (_evt) => {
+          // When receiving an alarm event, blink the faces' background color and
+          // stop after 30s
+          const interval = setInterval(() => {
+            setFaceStyle({
+              backgroundColor: '#ff367c',
+            });
+            setTimeout(() => {
+              setFaceStyle({
+                backgroundColor: 'inherit',
+              });
+            }, 500);
+          }, 1000);
+          setTimeout(() => {
+            setFaceStyle({
+              backgroundColor: 'inherit',
+            });
+            clearInterval(interval);
+          }, 30000);
+        }
+      );
+      
       if (!invoked) {
         await invoke('clock_events', {
           window: appWindow,
@@ -36,7 +64,7 @@ function App() {
   });
   return (
     <div className="container">
-      <div className="face">
+      <div className="face" style={faceStyle} >
         <div 
           id="hourHand"
           style={{ transform: `rotate(${clock.hoursAngle}rad)`}}>

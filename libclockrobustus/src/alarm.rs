@@ -193,7 +193,7 @@ pub struct Alarm {
 }
 
 impl Alarm {
-    /// Returns true if alarm is set in timespan between it's own defined time and five minutes
+    /// Returns true if alarm is set in timespan between it's own defined time and one second
     /// later.
     ///
     /// # Panics
@@ -206,7 +206,7 @@ impl Alarm {
                 .ok_or(ClockError("Could not create naive time for alarm"))?;
         if self.active_days.to_weekdays().contains(&local.weekday()) {
             let alarm_delta = local.time() - alarm_naive;
-            if local.time() >= alarm_naive && alarm_delta < Duration::minutes(5) {
+            if local.time() >= alarm_naive && alarm_delta < Duration::seconds(1) {
                 Ok(true)
             } else {
                 Ok(false)
