@@ -25,7 +25,10 @@ Note : Sometimes, env tests fails randomly. This will have to be fixed in the ne
 
 Some features have not been implemented in the front-end for now. The server is able to distribute clock messages (intended
 to provite numeric time and also angles for the heads) and alarm messages. Also, the libclockrobustus holds several handy
-methods to store alarms in database.   
+methods to store alarms in database. Sneeze and shutdown functionnality should be implemented for alarms (as they now "ring" for
+only 30 seconds, and the only way to shut them down is to remove them).
+
+In place of "ringing", the alarm blinks the face's color. So it would be a great improvement to add sound.
 
 Also, the libclockrobustus holds a function named 'check_database_directory' in the 'lib.rs' file, that is not portable (it's unix-like only for now). Some improvements could be to handle this function better for portability.   
 
