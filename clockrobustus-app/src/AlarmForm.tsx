@@ -49,7 +49,7 @@ export default function AlarmForm(props: AlarmFormProps) {
           id={`alarm-id-hour-${alarm.id || 0}`}
           size={24}
           label="Hour"
-          val={alarm.id ? alarm.hour : 12}
+          val={alarm.hour}
           change={async (event) => {
             alarm.hour = parseInt(event.target.value);
             if (alarm.id) {
@@ -64,7 +64,7 @@ export default function AlarmForm(props: AlarmFormProps) {
           id={`alarm-id-minute-${alarm.id || 0}`}
           size={60}
           label="Minute"
-          val={alarm.id ? alarm.minute : 0}
+          val={alarm.minute}
           change={async (event) => {
             alarm.minute = parseInt(event.target.value);
             if (alarm.id) {
@@ -79,7 +79,7 @@ export default function AlarmForm(props: AlarmFormProps) {
           id={`alarm-id-second-${alarm.id || 0}`}
           size={60}
           label="Second"
-          val={alarm.id ? alarm.seconds : 0}
+          val={alarm.seconds}
           change={async (event) => {
             alarm.seconds = parseInt(event.target.value);
             if (alarm.id) {
@@ -109,6 +109,7 @@ export default function AlarmForm(props: AlarmFormProps) {
       </Box>
       <br />
       <Divider />
+      <br />
       <br />
     </Box>
   );

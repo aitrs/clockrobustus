@@ -10,13 +10,14 @@ use crate::error::ClockError;
 /// # Examples
 ///
 /// ```
-/// use serde::{Deserialize};
+/// use serde::{Serialize, Deserialize};
 /// use libclockrobustus::alarm::ActiveDays;
 ///
 /// let days = ActiveDays(0x01);
 /// let json = serde_json::to_string(&days).unwrap();
-///
 /// assert_eq!(json, "[\"Monday\"]");
+/// let days: ActiveDays = serde_json::from_str("[\"Monday\", \"Tuesday\"]").unwrap();
+/// assert_eq!(days, ActiveDays(0x03));
 /// ```
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct ActiveDays(pub u8);

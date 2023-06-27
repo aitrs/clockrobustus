@@ -16,15 +16,11 @@ export default function Alarms() {
   const openDialog = async () => {
     try {
       const retrievedAlarms: [Alarm] = await invoke('get_alarms');
-      if (retrievedAlarms.length) {
-        setAlarms(retrievedAlarms);
-      }
+      setAlarms(retrievedAlarms);
       listener = listen('REFRESH_ALARMS', async (_e) => {
         const refreshedAlarms: [Alarm] = await invoke('get_alarms');
         
-        if (refreshedAlarms.length) {
-          setAlarms(refreshedAlarms);
-        }
+        setAlarms(refreshedAlarms);
       });
       setOpen(true);
     } catch (error) {
@@ -43,7 +39,6 @@ export default function Alarms() {
           <br />
           <AlarmForm alarm={dummyAlarm} />
           <br />
-          <Divider />
           <br />
           {
             alarms.map((alarm) => {

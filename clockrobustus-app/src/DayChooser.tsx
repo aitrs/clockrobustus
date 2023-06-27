@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useState } from "react";
 import { DayChooserProps } from "./interfaces";
+import { appWindow } from "@tauri-apps/api/window";
 
 export default function DayChooser(props: DayChooserProps) {
   const emptyArray: Array<string> = [];
@@ -25,18 +26,22 @@ export default function DayChooser(props: DayChooserProps) {
             const index = daysChecked.findIndex((elt) => elt === d[1]);
 
             if (index !== -1 && !event.target.checked) {
-              setDaysChecked(daysChecked.splice(index, 1));
+              let newDays = [...daysChecked] as Array<string>;
+              newDays.splice(index, 1);
+              setDaysChecked(newDays);
+              props.change(newDays);
             } else if (event.target.checked) {
               let newDays = [...daysChecked] as Array<string>;
               newDays.push(d[1]);
               setDaysChecked(newDays);
+              props.change(newDays);
             }
           }}
           value={d[1]}
           control={<Checkbox />}
           label={d[0]}
           labelPlacement="top"
-          defaultChecked={
+          checked={
             props
               .days
               .findIndex((elt) => elt === d[1]) !== -1
@@ -45,6 +50,5 @@ export default function DayChooser(props: DayChooserProps) {
       })
     }
     </FormGroup>
-
   );
 }

@@ -29,7 +29,7 @@ export const dummyClockMessage: ClockMessage = {
 
 export const dummyAlarm: Alarm = {
   activeDays: [],
-  hour: 0,
+  hour: 12,
   minute: 0,
   seconds: 0,
 }

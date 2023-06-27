@@ -1,6 +1,6 @@
 use std::sync::{Arc, RwLock};
 
-use libclockrobustus::{alarm::Alarm, check_database_directory};
+use libclockrobustus::{alarm::{Alarm}, check_database_directory};
 
 static mut CONN: Option<Arc<RwLock<sqlite::Connection>>> = None;
 
