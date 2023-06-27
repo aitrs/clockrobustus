@@ -111,7 +111,7 @@ impl ClockMessage {
     /// Internal initialization handy method for minutes and seconds hand angle computation (in
     /// radians)
     fn ms60_to_radians(value: u8, arc: Option<u8>) -> f32 {
-        let arc = (arc.unwrap_or(0) as f32) * PI / 3600f32;
+        let arc = (arc.unwrap_or(0) as f32) * PI / 1800f32;
         let angle = PI / 2f32 + (PI * (value % 60) as f32) / 30f32;
 
         angle + arc
