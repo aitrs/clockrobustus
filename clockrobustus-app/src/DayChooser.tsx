@@ -1,7 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DayChooserProps } from "./interfaces";
-import { appWindow } from "@tauri-apps/api/window";
 
 export default function DayChooser(props: DayChooserProps) {
   const emptyArray: Array<string> = [];
