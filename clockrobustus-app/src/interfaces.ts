@@ -1,5 +1,5 @@
 import { SelectChangeEvent } from "@mui/material";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 
 export interface ClockMessage {
   hours: number,
@@ -43,7 +43,7 @@ export interface NumericSelectProps {
   label: string,
   id: string,
   val: number,
-  change: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  change: (event: SelectChangeEvent, child: ReactNode) => void,
 }
 
 export interface DayChooserProps {

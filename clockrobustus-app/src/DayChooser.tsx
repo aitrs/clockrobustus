@@ -24,7 +24,7 @@ export default function DayChooser(props: DayChooserProps) {
       dayLabels.map((d) => {
         return (<FormControlLabel
           style={{ transform: 'scale(0.8)', width: '10px' }}
-          onChange={(event) => {
+          onChange={(event: any) => {
             const index = daysChecked.findIndex((elt) => elt === d[1]);
 
             if (index !== -1 && !event.target.checked) {
