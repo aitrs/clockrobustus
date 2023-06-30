@@ -3,10 +3,12 @@ pub mod alarm;
 pub mod clock;
 pub mod env;
 pub mod error;
+pub mod message;
+pub mod queue;
 
-/// Ties the whole thing to linux (and some other unix-likes).
 /// Handy function to check if the database file exists (creates it otherwise)
-/// TODO : Port it to other platforms...
+/// Unix version version
+#[cfg(target_family = "unix")]
 pub fn check_database_directory() -> Result<String, error::ClockError> {
     let home = std::env::var("HOME")?;
     let dbpath = format!("{}/.config/clockrobustus/dbase.sqlite", home);
@@ -19,5 +21,18 @@ pub fn check_database_directory() -> Result<String, error::ClockError> {
             .arg(dbpath.clone())
             .output()?;
     }
+    Ok(dbpath)
+}
+
+/// Version for Windows
+#[cfg(target_family = "windows")]
+pub fn check_database_directory() -> Result<String, error::ClockError> {
+    let dbpath = "C:\\ProgramData\\ClockRobustus\\dbase.sqlite".to_string();
+
+    if !std::path::PathBuf::from(dbpath.clone()).exists() {
+        std::fs::create_dir_all("C:\\ProgramData\\ClockRobustus")?;
+        std::fs::File::create(dbpath.clone())?;
+    }
+
     Ok(dbpath)
 }

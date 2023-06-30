@@ -1,5 +1,5 @@
 use libclockrobustus::{
-    alarm::Alarm, check_database_directory, clock::ClockMessage, env::ClockEnv, error::ClockError,
+    alarm::Alarm, check_database_directory, clock::ClockMessage, env::ClockEnv, error::ClockError, message::Message,
 };
 use std::{
     sync::{
@@ -19,14 +19,14 @@ fn tick(socket: &zmq::Socket, conn: &sqlite::Connection) -> Result<(), ClockErro
     // Triggering relevant alarms
     for alarm in alarms {
         if alarm.must_ring()? {
-            let msg = zmq::Message::from(alarm.as_bytes());
+            let msg = zmq::Message::from(Message::from(alarm).as_bytes());
 
             socket.send(msg, 0)?;
         }
     }
 
     // Sending clockmessage.
-    let clock_message = zmq::Message::from(ClockMessage::default().as_bytes());
+    let clock_message = zmq::Message::from(Message::from(ClockMessage::default()).as_bytes());
     socket.send(clock_message, 0)?;
 
     Ok(())

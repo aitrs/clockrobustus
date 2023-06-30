@@ -11,4 +11,5 @@ ctrlc = "3.4.0"
 serde = { version = "1.0.164", features = ["derive"] }
 serde_json = "1.0.99"
 sqlite = "0.31.0"
+velcro = "0.5.4"
 zmq = "0.10.0"

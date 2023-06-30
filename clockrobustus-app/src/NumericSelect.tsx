@@ -10,9 +10,11 @@ export default function NumericSelect(props: NumericSelectProps) {
       <Select
         labelId={`${props.id}-label`}
         id={props.id}
-        value={`${props.val}`}
+        value={`${props.value}`}
         label={props.label}
-        onChange={props.change}
+        onChange={async (event) => {
+          props.change(parseInt(event.target.value));
+        }}
       >
         {
           [...items.keys()].map((k) => {

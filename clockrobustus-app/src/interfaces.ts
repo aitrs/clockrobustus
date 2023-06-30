@@ -42,8 +42,8 @@ export interface NumericSelectProps {
   size: number,
   label: string,
   id: string,
-  val: number,
-  change: (event: SelectChangeEvent, child: ReactNode) => void,
+  value: number,
+  change: (value: number) => void,
 }
 
 export interface DayChooserProps {

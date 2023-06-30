@@ -19,7 +19,7 @@ use crate::error::ClockError;
 /// let days: ActiveDays = serde_json::from_str("[\"Monday\", \"Tuesday\"]").unwrap();
 /// assert_eq!(days, ActiveDays(0x03));
 /// ```
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ActiveDays(pub u8);
 
 impl ActiveDays {
@@ -182,7 +182,7 @@ const TNAME: &str = "alarms";
 ///     seconds: 0,
 /// });
 /// ```
-#[derive(Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Alarm {
     pub id: Option<i64>,
@@ -386,10 +386,7 @@ impl Alarm {
         Ok(())
     }
 
-    /// Binary representation of the alarm (to be used in a queue). It is differenciated from the
-    /// time given by the clock as it starts with an 0xFF byte, so the app can know it must display
-    /// an alarm ringing. (the 0xFF value is never reached by clock messages, since they start with
-    /// the hour and it goes only up to 23 (0x17)
+    /// Binary representation of the alarm (to be used in a queue).
     ///
     /// # Examples
     ///
@@ -404,27 +401,31 @@ impl Alarm {
     ///     seconds: 9,
     /// };
     ///
-    /// assert_eq!(alarm.as_bytes(), vec![0xff, 0x01, 12, 9, 9]);
+    /// assert_eq!(alarm.as_bytes(), vec![0x01, 12, 9, 9]);
     /// ```
     pub fn as_bytes(&self) -> Vec<u8> {
-        vec![
-            0xff,
-            self.active_days.0,
-            self.hour,
-            self.minute,
-            self.seconds,
-        ]
+        vec![self.active_days.0, self.hour, self.minute, self.seconds]
     }
 }
 
-impl From<Vec<u8>> for Alarm {
-    fn from(value: Vec<u8>) -> Self {
-        Self {
-            id: None,
-            active_days: ActiveDays(value[1]),
-            hour: value[2],
-            minute: value[3],
-            seconds: value[4],
+impl TryFrom<Vec<u8>> for Alarm {
+    type Error = ClockError;
+
+    fn try_from(value: Vec<u8>) -> Result<Self, Self::Error> {
+        if value.is_empty() {
+            Err(ClockError("Cannot convert alarm from empty bytes vector"))
+        } else if value.len() < 4 {
+            Err(ClockError(
+                "binary data is too short to create an alarm message",
+            ))
+        } else {
+            Ok(Self {
+                id: None,
+                active_days: ActiveDays(value[0]),
+                hour: value[1],
+                minute: value[2],
+                seconds: value[3],
+            })
         }
     }
 }
@@ -502,7 +503,7 @@ mod tests {
             seconds: 9,
         };
 
-        let alarm2 = Alarm::from(alarm.as_bytes());
+        let alarm2 = Alarm::try_from(alarm.as_bytes()).unwrap();
 
         assert_eq!(alarm, alarm2);
     }

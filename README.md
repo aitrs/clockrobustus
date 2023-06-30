@@ -6,14 +6,73 @@ Most of the things in this cargo workspace can be build using the cargo build --
 However, to build the front-end part, you'll have to run cargo tauri build (don't forget to install
 the Tauri framework before).
 
+### Dependencies
+
+#### Linux
+
+you will need pkgconfig. Pick one of the following lines to paste in your shell
+```bash
+sudo apt install pkg-config
+sudo yum install pkg-config
+sudo pacman -S pkg-config
+```
+
+you will also need libsoup 2.4
+```bash
+sudo apt install libsoup2.4-dev
+sudo yum install libsoup
+sudo pacman -S libsoup
+```
+   
+Then you will need the rust toolchain
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+...and the tauri cli
+```bash
+cargo install tauri-cli
+```
+...and the node toolchain
+```bash
+sudo apt install node npm npx
+```
+(it is recommanded to use nvm to manage easily node versions)
+
+#### Windows
+
+Work in progress (but steps from the linux instructions are reproductible with some tweaking in windows powershell)
+
+### Building
+
+#### Time Server
+
+First you need to build the time server
+
+```bash
+cargo build --release --package clockrobustusd
+```
+
+Then build the app
+```bash
+cd ./clockrobustus-app
+npm i
+cargo tauri build
+cd ..
+```
+
 ## Run
 
-ClockRobustus has a client/server architecture, with the two bounded by a lib holding every shared code the 
-two have in common.   
+First make sure to run the time server. Le it run in it's on terminal so you can ctrl+c it when you're done testing
+```bash
+./target/release/clockrobustusd
+```
 
-The clockrobustus executable (in target/debug or target/release) holds the graphics, while the clockrobustusd daemon
-is basically a sort of time server. Both have to be running to work, and they communicate through zmq (see the
-libclockrobustus documentation for more details, and possible environment tweaks to suit your needs).
+Then run the front app 
+```bash
+./target/release/clockrobustus
+```
+
+It should work...
 
 ## Testing
 
